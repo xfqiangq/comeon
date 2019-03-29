@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			* {
+				padding: 0;
+				margin: 0;
+			}
+			
+			.silde-warp {
+				margin: 0 auto;
+				width: 700px;
+				height: 454px;
+				overflow: hidden;
+				position: relative;
+			}
+			.silde-nav {
+				position: absolute;
+				left: 215px;
+				bottom: 10px;
+				background-color: rgba(0, 0, 0, 0.2);
+				padding: 10px;
+				border-radius: 20px;
+			}
+			
+			.silde-nav li {
+				list-style: none;
+				display: inline-block;
+				background-color: #f1f1f1;
+				width: 25px;
+				height: 25px;
+				line-height: 25px;
+				text-align: center;
+				font-size: 14px;
+				margin-left: 10px;
+				border-radius: 50%;
+				cursor: pointer;
+			}
+			
+			.silde-nav li.active {
+				background-color: #ff7300;
+				color: #fff;
+			}
+			
+			.silde-prev,
+			.silde-next {
+				position: absolute;
+				top: 187px;
+				text-decoration: none;
+				text-align: center;
+				width: 25px;
+				height: 80px;
+				line-height: 80px;
+				color: #fff;
+				background-color: rgba(0, 0, 0, 0.6);
+				display: none;
+			}
+			
+			.silde-warp:hover .silde-prev,
+			.silde-warp:hover .silde-next{
+				display: block;
+			}
+			
+			.silde-prev {
+				left: 0;
+			}
+			
+			.silde-next {
+				right: 0;
+			}
+			.silde-content img{
+				position: absolute;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="silde-warp">
+			<div class="silde-content">
+				<img src="img/adver01.jpg"/>
+				<img src="img/adver02.jpg" />
+				<img src="img/adver03.jpg" />
+				<img src="img/adver04.jpg" />
+				<img src="img/adver05.jpg" />
+				<img src="img/adver06.jpg" />
+			</div>
+			<div class="silde-nav">
+				<ul>
+					<li class="active">1</li>
+					<li>2</li>
+					<li>3</li>
+					<li>4</li>
+					<li>5</li>
+					<li>6</li>
+				</ul>
+			</div>
+			<a href="javascript:;" class="silde-prev">&lt;</a>
+			<a href="javascript:;" class="silde-next">&gt;</a>
+		</div>
+		<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+		<script type="text/javascript">
+			var width = 730;
+			$(function() {
+				$(".silde-content img").eq(0).show().siblings().hide();
+				 
+				$(".silde-prev").click(function() {
+					var index = $(".silde-nav li.active").index();
+					
+					$(".silde-nav li").eq(index-1).addClass("active").siblings().removeClass("active");
+
+					$(".silde-content img").eq(index-1).show().siblings().fadeOut();
+				})
+				
+		
+				$(".silde-nav li").on("click mouseover",function(){
+					var _this = $(this);
+					_this.addClass("active").siblings().removeClass("active");
+					$(".silde-content img").eq(_this.index()).fadeIn().siblings().fadeOut();
+				})
+				
+			
+				$(".silde-next").click(function() {
+
+					var index = $(".silde-nav li.active").index();
+					if(index==$(".silde-nav li").length-1){
+						index =-1;
+					}
+
+					$(".silde-nav li").eq(index+1).addClass("active").siblings().removeClass("active");
+					
+				
+					$(".silde-content img").eq(index+1).css("left",width+"px").show();
+					$(".silde-content img").eq(index).animate({"left":-width+"px"},500);
+					$(".silde-content img").eq(index+1).animate({"left":0},500)
+					
+				})
+				
+			    var index = 0;
+			    setInterval(function(){
+					if(index==$(".silde-nav li").length-1){
+						index =-1;
+					}
+
+					$(".silde-nav li").eq(index+1).addClass("active").siblings().removeClass("active");
+			
+					$(".silde-content img").eq(index+1).show().siblings().fadeOut();
+				index++;
+				},1000)
+			})
+		</script>
+	</body>
+
+</html>
